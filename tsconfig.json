@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "charset": "UTF8",
+        "sourceMap": false,
+        "target": "es5",
+        "outDir": "./build",
+        "rootDir": "."
+    },
+    "include": [
+        "./app/*"
+    ],
+    "exclude": [
+        "./build"
+    ]
+}
