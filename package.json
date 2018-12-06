@@ -8,5 +8,14 @@
   },
   "author": "bca",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oScape/transfer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oScape/transfer/issues"
+  },
+  "homepage": "https://github.com/oScape/transfer#readme",
+  "devDependencies": {}
 }
