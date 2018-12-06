@@ -1,10 +1,9 @@
 class Startup 
 {
 
-    public static main(): number
+    public static main(): void
     {
         console.log('Hello World');
-        return 0;
     }
 }
 
