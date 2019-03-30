@@ -13,12 +13,19 @@ app.get('/',(req, res) => {
 });
 
 app.post('/post', upload.none(), (req, res) => {
-    console.log(req.body);
     exec('gammu sendsms text '
         + req.body.phone
         + ' -text "'
         + req.body.message 
-        + '"' );
+        + '"',
+        function (error, stdout, stderr) {
+            sys.print('stdout: ' + stdout);
+            sys.print('stderr: ' + stderr);
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+        }
+    );
     res.end("yes");
 });
 
