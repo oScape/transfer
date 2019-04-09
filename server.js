@@ -14,6 +14,11 @@ app.get('/',(req, res) => {
 });
 
 app.post('/post', upload.none(), (req, res) => {
+    let arrayString = [req.body];
+    if( req.body.message.length > 160 )
+    {
+        arrayString = sliceString(req.body.message);
+    }
     // exec('gammu sendsms text '
     //     + req.body.phone
     //     + ' -text "'
@@ -27,8 +32,23 @@ app.post('/post', upload.none(), (req, res) => {
     //         }
     //     }
     // );
-    console.log( req.body )
+    console.log( arrayString )
     res.end("yes");
 });
 
 app.listen( 8080, () => console.log("Serveur listening on: 8080"));
+
+let sliceString = (string) => {
+    let arrayString = [];
+    let maxI = string.length;
+    for(let i = 0; maxI > i; i += 160)
+    {
+        let a = i + 160;
+        if ( maxI < a )
+        {
+            a = maxI;
+        }
+        arrayString.push(string.slice(i, a))
+    }
+    return arrayString;
+}
