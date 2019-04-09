@@ -1,24 +1,33 @@
-export const validation = ( form ) => 
+export const validation = (form) => 
 {
-    let name = form["form"]["name"];
-    let phone = form["form"]["phone"];
+    const NAME = form["form"]["name"];
+    const PHONE = form["form"]["phone"];
 
     let result = Object.create(ValidationInterface);
 
-    if (name.value === "")
+    if (!regexString.test(NAME.value) || NAME.value.length <= 0)
     {
-        result = {validity: false, message: "Insert name"};
-        return result;
+        result.validity = false; 
+        result.message = "Veuillez insérer un nom";
     }
 
-    if (phone.value.length < 10)
+    if (isNaN(parseInt(PHONE.value)) || PHONE.value.length !== 10)
     {
-        result = {validity: false, message: "Bad phone number"};
-        return result;
+        result.validity = false;
+        if (result.message === "")
+        {
+            result.message = "Le numéro de téléphone est incorrect";
+        }
+        else
+        {
+            result.message = result.message + " et un numéro de téléphone correct";
+        }
     }
 
     return result;
 }
+
+const regexString = RegExp(/^[A-Za-z]+$/);
 
 const ValidationInterface = {
     validity: true,
