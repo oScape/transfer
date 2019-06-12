@@ -2,15 +2,25 @@
   "name": "transfer",
   "version": "0.0.1",
   "description": "File to phone",
-  "main": "index.ts",
+  "main": "index.js",
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "scripts": {
-    "start": "node server.js"
+    "start_server": "node server.js",
+    "start_app": "webpack-dev-server --open",
+    "build_app": "webpack"
   },
   "author": "bca",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
-    "multer": "^1.4.1"
+    "multer": "^1.4.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "repository": {
     "type": "git",
@@ -20,5 +30,16 @@
     "url": "https://github.com/oScape/transfer/issues"
   },
   "homepage": "https://github.com/oScape/transfer#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.33.0",
+    "webpack-cli": "^3.3.3",
+    "webpack-dev-server": "^3.7.1"
+  }
 }

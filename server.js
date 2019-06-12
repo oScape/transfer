@@ -1,44 +1,62 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const multer = require('multer');
-const sys = require('sys');
-const { exec } = require('child_process');
-const dataUtil = require('./util/data.js');
+var express = require('express');
+var multer = require('multer');
+var path = require('path');
+var sys = require('sys');
 
-let upload = multer();
+var { exec } = require('child_process');
+var dataUtil = require('./util/data.js');
 
-// public file
-app.use(express.static(path.join(__dirname + '/public')));
+var app = express();
+var upload = multer();
 
-// homepage
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+/**
+ * Mise à disposition du file app
+ */
+app.use(express.static(path.join(__dirname + '/dist')));
+
+/**
+ * Route principal
+ */
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 
-// post form
+/**
+ * Route de soumission du formulaire
+ */
 app.post('/post', upload.none(), (req, res) => {
+    sendMessage(req);
+    res.end('yes');
+});
+
+/**
+ * Listener du serveur
+ */
+app.listen(8080, () => console.log('Serveur listening on: 8080'));
+
+/**
+ * Traitement et envoi du message
+ * @param {Request} req
+ */
+function sendMessage(req) {
     let arrayString = [req.body];
     if (req.body.message.length > 160) {
         arrayString = dataUtil.sliceString(req.body.message);
     }
     for (let i = 0; arrayString.length > i; i++) {
-        exec('gammu sendsms text '
-            + req.body.phone
-            + ' -text "'
-            + arrayString[i]
-            + '"',
+        exec(
+            "gammu sendsms text " +
+            req.body.phone +
+            ' -text "' +
+            arrayString[i] +
+            '"',
             function (error, stdout, stderr) {
-                sys.print('stdout: ' + stdout);
-                sys.print('stderr: ' + stderr);
+                sys.print("stdout: " + stdout);
+                sys.print("stderr: " + stderr);
                 if (error !== null) {
-                    console.log('exec error: ' + error);
+                    console.log("exec error: " + error);
                 }
             }
         );
     }
-    res.end("yes");
-});
-
-// listener server
-app.listen(8080, () => console.log("Serveur listening on: 8080"));
+}
