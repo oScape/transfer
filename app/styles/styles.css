@@ -1,10 +1,66 @@
-label {
+.app {
   display: block;
+  margin: 0 auto;
+  width: 622px;
+  font-family: Arial, Helvetica, sans-serif;
 }
-input {
-  width: 200px;
+.app h1 {
+  padding: 50px 0 15px 0;
+  color: #5c5c5c;
+  font-size: x-large;
 }
-textarea {
-  width: 400px;
-  height: 400px;
+.app form div {
+  width: 300px;
+  padding: 10px;
+  padding-bottom: 0;
+  margin-bottom: 30px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+}
+.app form label {
+  float: left;
+  padding: 2px 5px;
+  margin-top: -20px;
+  background: #ffffff;
+  font-size: 14px;
+  color: #b9b9b9;
+}
+.app form textarea,
+.app form input {
+  width: 300px;
+  height: 25px;
+  line-height: 25px;
+  padding: 0;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+}
+.app form div span {
+  display: block;
+  padding: 3px;
+  font-size: 11px;
+  color: #c0c0c0;
+  text-align: center;
+}
+.app form button {
+  float: right;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #2471ff;
+  color: #d2e2ff;
+  border: none;
+  border-radius: 10px;
+}
+.app form button:hover {
+  background: #6b9fff;
+  color: #fff;
+}
+
+#messageContainer,
+#messageContainer textarea {
+  width: 600px;
+  height: 250px;
+}
+#messageContainer {
+  height: 272px;
 }
