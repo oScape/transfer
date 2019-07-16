@@ -1,7 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var path = require('path');
-var sys = require('sys');
+var util = require('util');
 
 var { exec } = require('child_process');
 var dataUtil = require('./util/data.js');
@@ -51,8 +51,8 @@ function sendMessage(req) {
             arrayString[i] +
             '"',
             function (error, stdout, stderr) {
-                sys.print("stdout: " + stdout);
-                sys.print("stderr: " + stderr);
+                util.print("stdout: " + stdout);
+                util.print("stderr: " + stderr);
                 if (error !== null) {
                     console.log("exec error: " + error);
                 }
