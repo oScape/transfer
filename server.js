@@ -1,7 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var path = require('path');
-var util = require('util');
+var fs = require('fs');
 
 var { exec } = require('child_process');
 var dataUtil = require('./util/data.js');
@@ -25,8 +25,7 @@ app.get("/", (req, res) => {
  * Route de soumission du formulaire
  */
 app.post('/post', upload.none(), (req, res) => {
-    sendMessage(req);
-    res.end('yes');
+    res.end(sendMessage(req));
 });
 
 /**
@@ -39,24 +38,37 @@ app.listen(8080, () => console.log('Serveur listening on: 8080'));
  * @param {Request} req
  */
 function sendMessage(req) {
-    let arrayString = [req.body];
+    let message = [req.body.message];
     if (req.body.message.length > 160) {
-        arrayString = dataUtil.sliceString(req.body.message);
+        message = dataUtil.sliceString(req.body.message);
     }
-    for (let i = 0; arrayString.length > i; i++) {
+
+    for (let i = 0; message.length > i; i++) {
         exec(
             "gammu sendsms text " +
             req.body.phone +
             ' -text "' +
-            arrayString[i] +
+            message[i] +
             '"',
             function (error, stdout, stderr) {
-                util.print("stdout: " + stdout);
-                util.print("stderr: " + stderr);
-                if (error !== null) {
-                    console.log("exec error: " + error);
-                }
+                errorLogger(error, stdout, stderr);
             }
         );
     }
+}
+
+/**
+ * Traitement et log des erreurs dans le fichier approprié
+ */
+function errorLogger(error, stdout, stderr) {
+    let data = `stdout: ${stdout}\n`;
+    if (stderr) {
+        data = `stderr: ${stderr}\n`;
+    }
+    if (error) {
+        data = error;
+    }
+    data = new Date().toLocaleString().replace(/T/, ' ').replace(/\..+/, '') + " - " + data;
+
+    fs.writeFileSync(path.join(__dirname + '/log.txt'), data, { flag: "a" }, (err) => console.log(err));
 }
