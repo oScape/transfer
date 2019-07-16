@@ -8,13 +8,20 @@ export function submit(e, form) {
 
         XHR.open('POST', 'http://localhost:8080/post', true);
         XHR.send(FD);
+
+        if (XHR.status === 200) {
+            alert(`Le message a bien été envoyé à ${form["name"].value} au ${form["phone"].value}.`);
+        }
+        else {
+            alert(`Une erreur serveur est survenue, veuillez me contacter en me donnant l'information suivante : xhrStatus = ${XHR.status}`);
+        }
     }
     else if (formValidation) {
         alert(formValidation.message);
         e.preventDefault();
     }
     else {
-        alert("Un problème serveur est survenu, veuillez me contacter :)");
+        alert("Une erreur inconnue est survenue à la validation du formulaire, veuillez me contacter.");
         e.preventDefault();
     }
 };
