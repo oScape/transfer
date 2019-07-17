@@ -13,7 +13,8 @@ export function submit(e, form) {
             alert(`Le message a bien été envoyé à ${form["name"].value} au ${form["phone"].value}.`);
         }
         else {
-            alert(`Une erreur serveur est survenue, veuillez me contacter en me donnant l'information suivante : xhrStatus = ${XHR.status}`);
+            alert(`Une erreur est survenue, veuillez me contacter en me donnant l\'information suivante : xhrStatus : ${XHR.status}`);
+            e.preventDefault();
         }
     }
     else if (formValidation) {

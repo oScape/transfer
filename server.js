@@ -50,9 +50,7 @@ function sendMessage(req) {
             ' -text "' +
             message[i] +
             '"',
-            function (error, stdout, stderr) {
-                logger(error, stdout, stderr);
-            }
+            (error, stdout, stderr) => logger(error, stdout, stderr)
         );
     }
 
@@ -73,7 +71,7 @@ function saveMessage(bodyMessage) {
     if (!fs.existsSync(dataDirectory)){
         fs.mkdirSync(dataDirectory);
     }
-    fs.writeFileSync(dataDirectory + fileName + '.txt', data, { flag: "a" }, (err) => logger(err, null, null));
+    fs.writeFileSync(dataDirectory + fileName + '.txt', data, { flag: "a" });
 }
 
 /**
@@ -89,5 +87,5 @@ function logger(error, stdout, stderr) {
     }
     data = new Date().toLocaleString().replace(/T/, ' ').replace(/\..+/, '') + " - " + data;
 
-    fs.writeFileSync(path.join(__dirname + '/logs.log'), data, { flag: "a" }, (err) => console.log(err));
+    fs.writeFileSync(path.join(__dirname + '/logs.log'), data, { flag: "a" });
 }
