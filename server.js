@@ -51,16 +51,35 @@ function sendMessage(req) {
             message[i] +
             '"',
             function (error, stdout, stderr) {
-                errorLogger(error, stdout, stderr);
+                logger(error, stdout, stderr);
             }
         );
     }
+
+    saveMessage(req.body);
+}
+
+/**
+ * Enregistrement du message
+ */
+function saveMessage(bodyMessage) {
+    let fileName = new Date().toLocaleDateString().replace(/-/g, '_');
+    let data = '-------------- Message --------------\n'
+    + `name: ${bodyMessage.name}\n`
+    + `phone: ${bodyMessage.phone}\n`
+    + `message: ${bodyMessage.message}\n`;
+
+    let dataDirectory = path.join(__dirname + '/data/');
+    if (!fs.existsSync(dataDirectory)){
+        fs.mkdirSync(dataDirectory);
+    }
+    fs.writeFileSync(dataDirectory + fileName + '.txt', data, { flag: "a" }, (err) => logger(err, null, null));
 }
 
 /**
  * Traitement et log des erreurs dans le fichier approprié
  */
-function errorLogger(error, stdout, stderr) {
+function logger(error, stdout, stderr) {
     let data = `stdout: ${stdout}\n`;
     if (stderr) {
         data = `stderr: ${stderr}\n`;
@@ -70,5 +89,5 @@ function errorLogger(error, stdout, stderr) {
     }
     data = new Date().toLocaleString().replace(/T/, ' ').replace(/\..+/, '') + " - " + data;
 
-    fs.writeFileSync(path.join(__dirname + '/log.txt'), data, { flag: "a" }, (err) => console.log(err));
+    fs.writeFileSync(path.join(__dirname + '/logs.log'), data, { flag: "a" }, (err) => console.log(err));
 }
