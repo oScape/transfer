@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
  */
 app.post('/post', upload.none(), (req, res) => {
     let hasError = sendMessage(req);
-    res.end(hasError ? 500 : 200);
+    res.status(hasError ? 500 : 200).end();
 });
 
 /**
