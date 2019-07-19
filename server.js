@@ -25,7 +25,8 @@ app.get("/", (req, res) => {
  * Route de soumission du formulaire
  */
 app.post('/post', upload.none(), (req, res) => {
-    res.end(sendMessage(req));
+    let hasError = sendMessage(req);
+    res.end(hasError ? 500 : 200);
 });
 
 /**
@@ -55,13 +56,15 @@ function sendMessage(req) {
     }
 
     saveMessage(req.body);
+
+    return error || stderr ? true : false;
 }
 
 /**
  * Enregistrement du message
  */
 function saveMessage(bodyMessage) {
-    let fileName = new Date().toLocaleDateString().replace(/-/g, '_');
+    let fileName = new Date().toLocaleDateString().replace(/\//g, '_');
     let data = '-------------- Message --------------\n'
     + `name: ${bodyMessage.name}\n`
     + `phone: ${bodyMessage.phone}\n`
