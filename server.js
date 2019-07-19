@@ -40,6 +40,7 @@ app.listen(8080, () => console.log('Serveur listening on: 8080'));
  */
 function sendMessage(req) {
     let message = [req.body.message];
+    let hasError;
     if (req.body.message.length > 160) {
         message = dataUtil.sliceString(req.body.message);
     }
@@ -51,13 +52,15 @@ function sendMessage(req) {
             ' -text "' +
             message[i] +
             '"',
-            (error, stdout, stderr) => logger(error, stdout, stderr)
+            (error, stdout, stderr) => {
+                logger(error, stdout, stderr);
+                hasError = !!(error || stderr);
+            }
         );
     }
 
     saveMessage(req.body);
-
-    return error || stderr ? true : false;
+    return hasError;
 }
 
 /**
