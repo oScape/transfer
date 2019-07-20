@@ -3,7 +3,7 @@ var multer = require('multer');
 var path = require('path');
 var fs = require('fs');
 
-var { exec } = require('child_process');
+var { execSync } = require('child_process');
 var dataUtil = require('./util/data.js');
 
 var app = express();
@@ -46,7 +46,7 @@ function sendMessage(req) {
     }
 
     for (let i = 0; message.length > i; i++) {
-        exec(
+        execSync(
             "gammu sendsms text " +
             req.body.phone +
             ' -text "' +

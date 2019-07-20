@@ -9,16 +9,17 @@ export function submit(e, form) {
         XHR.open('POST', 'http://localhost:8080/post', true);
         XHR.send(FD);
 
-        XHR.onerror( () => {
-            alert(`Une erreur est survenue, veuillez me contacter en me donnant l\'information suivante : xhrStatus : ${XHR.status}`);
-            e.preventDefault();
-        });
-
-        XHR.onreadystatechange( () => {
-            if (XHR.readyState === 4 && XHR.status === 200) {
-                alert(`Le message a bien été envoyé à ${form["name"].value} au ${form["phone"].value}.`);
+        XHR.onreadystatechange = () => {
+            if (XHR.readyState === 4){
+                if (XHR.status === 200){
+                    alert(`Le message a bien été envoyé à ${form["name"].value} au ${form["phone"].value}.`);
+                }
+                else{
+                    alert(`Une erreur est survenue, veuillez me contacter en me donnant l\'information suivante : xhrStatus : ${XHR.status}`);
+                    e.preventDefault();
+                }
             }
-        });
+        }
     }
     else if (formValidation) {
         alert(formValidation.message);
