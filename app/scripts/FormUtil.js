@@ -34,6 +34,7 @@ export function submit(e, form) {
 function validation(form) {
     const NAME = form["name"];
     const PHONE = form["phone"];
+    const MESSAGE = form["message"];
 
     let result = {
         validity: true,
@@ -53,6 +54,11 @@ function validation(form) {
         else {
             result.message = result.message + " et un numéro de téléphone correct";
         }
+    }
+
+    if (!RegExp(/[^"`]/).test(MESSAGE.value) || MESSAGE.value.length <= 0) {
+        result.validity = false;
+        result.message = "Utiliser le caractère ' plutôt que les caractères : \" et ` ";
     }
 
     return result;

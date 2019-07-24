@@ -45,12 +45,12 @@ function sendMessage(req) {
         message = dataUtil.sliceString(req.body.message);
     }
 
-    for (let i = 0; message.length > i; i++) {
+    for (let trunk of message) {
         execSync(
             "gammu sendsms text " +
             req.body.phone +
             ' -text "' +
-            message[i] +
+            trunk +
             '"',
             (error, stdout, stderr) => {
                 logger(error, stdout, stderr);
